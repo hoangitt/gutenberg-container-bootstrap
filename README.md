@@ -6,13 +6,14 @@
 * Setting Text Color
 * Setting Padding, Margin
 
-#How to use
-### Add file js in theme or plugin
+# How to use
 - add file script, use action enqueue_block_editor_assets
-- add theme support wide align: add_theme_support('align-wide')
-- add theme support padding, wordpress: add_theme_support('custom-spacing')
+- add theme support wide align: ```add_theme_support('align-wide')```
+- add theme support padding, margin: ```add_theme_support('custom-spacing')```
 
-#Example show
+# Example
+```
 <div class="section">
   <div class="container">Everything</div>
 </div>
+```
