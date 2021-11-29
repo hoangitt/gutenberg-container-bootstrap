@@ -4,7 +4,8 @@
             useBlockProps = blockEditor.useBlockProps,
             InnerBlocks = blockEditor.InnerBlocks,
             InspectorControls = blockEditor.InspectorControls,
-            MediaUpload = blockEditor.MediaUpload;
+            MediaUpload = blockEditor.MediaUpload,
+            RichText = blockEditor.RichText;
 
     var PanelBody = components.PanelBody,
             Button = components.Button,
@@ -50,8 +51,7 @@
                 link: true
             },
             spacing: {
-                padding: true,
-                margin: true
+                padding: true
             }
         },
         edit: function (props) {
@@ -159,3 +159,4 @@
         }
     });
 })(window.wp.blocks, window.wp.element, window.wp.blockEditor, window.wp.components);
+
