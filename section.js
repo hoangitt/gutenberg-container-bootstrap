@@ -4,8 +4,7 @@
             useBlockProps = blockEditor.useBlockProps,
             InnerBlocks = blockEditor.InnerBlocks,
             InspectorControls = blockEditor.InspectorControls,
-            MediaUpload = blockEditor.MediaUpload,
-            RichText = blockEditor.RichText;
+            MediaUpload = blockEditor.MediaUpload;
 
     var PanelBody = components.PanelBody,
             Button = components.Button,
@@ -51,7 +50,8 @@
                 link: true
             },
             spacing: {
-                padding: true
+                padding: true,
+                margin: true
             }
         },
         edit: function (props) {
