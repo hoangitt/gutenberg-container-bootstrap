@@ -160,7 +160,7 @@
             let blockProps = useBlockProps.save(), className = blockProps.className.replace(regex, ''); //replace class alignwide
             blockProps.className = className;
 
-            let alignClassName = (attrs.align == 'undefined' ? '' : (attrs.align == 'wide' ? 'container ' : '') + 'align' + attrs.align);
+            let alignment = (attrs.align === undefined ? '' : (attrs.align == 'wide' ? 'container ' : '') + 'align' + attrs.align);
             if (attrs.bgImageId) {
                 blockProps.style.backgroundImage = 'url("' + attrs.bgImageUrl + '")';
                 if (attrs.bgImageRepeat) {
@@ -176,8 +176,9 @@
                     blockProps.style.backgroundPositionY = attrs.bgImagePositionY;
                 }
             }
-            if (alignClassName) {
-                return el('div', blockProps, el('div', {className: alignClassName}, el(InnerBlocks.Content)));
+            
+            if (alignment) {
+                return el('div', blockProps, el('div', {className: alignment}, el(InnerBlocks.Content)));
             } else {
                 return el('div', blockProps, el(InnerBlocks.Content));
             }
