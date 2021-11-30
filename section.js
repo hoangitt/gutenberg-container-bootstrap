@@ -160,7 +160,7 @@
             let blockProps = useBlockProps.save(), className = blockProps.className.replace(regex, ''); //replace class alignwide
             blockProps.className = className;
 
-            let alignClassName = (attrs.align == 'wide' ? 'container ' : '') + 'align' + attrs.align;
+            let alignClassName = (attrs.align == 'undefined' ? '' : (attrs.align == 'wide' ? 'container ' : '') + 'align' + attrs.align);
             if (attrs.bgImageId) {
                 blockProps.style.backgroundImage = 'url("' + attrs.bgImageUrl + '")';
                 if (attrs.bgImageRepeat) {
