@@ -27,6 +27,14 @@
                 type: 'string',
                 default: 'auto'
             },
+            bgImagePositionX: {
+                type: 'string',
+                default: 'center'
+            },
+            bgImagePositionY: {
+                type: 'string',
+                default: 'center'
+            },
             alignment: {
                 type: 'string',
                 default: 'full'
@@ -55,6 +63,8 @@
                     bgImageUrl = attrs.bgImageUrl,
                     bgImageId = attrs.bgImageId,
                     bgImageRepeat = attrs.bgImageRepeat,
+                    bgImagePositionX = attrs.bgImagePositionX,
+                    bgImagePositionY = attrs.bgImagePositionY,
                     bgImageSize = attrs.bgImageSize;
             let className = blockProps.className.replace('alignwide', ''); //replace class alignwide
             blockProps.className = className;
@@ -76,16 +86,29 @@
                 });
             }
             let repeatOpts = [
-                {label: __('Auto'), value: 'auto'},
+                {label: __('Auto'), value: ''},
                 {label: __('No Repeat', 'viweb'), value: 'no-repeat'},
                 {label: __('Repeat X', 'viweb'), value: 'repeat-x'},
                 {label: __('Repeat Y', 'viweb'), value: 'repeat-y'}
             ];
             let sizeOpts = [
-                {label: __('Auto'), value: 'auto'},
+                {label: __('Auto'), value: ''},
                 {label: __('Cover', 'viweb'), value: 'cover'},
                 {label: __('Contain', 'viweb'), value: 'contain'},
                 {label: '100%', value: '100%'}
+            ];
+
+            let positionXOpts = [
+                {label: __('Auto'), value: ''},
+                {label: __('Left', 'viweb'), value: 'left'},
+                {label: __('Center', 'viweb'), value: 'center'},
+                {label: 'Right', value: 'right'}
+            ];
+            let positionYOpts = [
+                {label: __('Auto'), value: ''},
+                {label: __('Top', 'viweb'), value: 'top'},
+                {label: __('Center', 'viweb'), value: 'center'},
+                {label: __('Bottom', 'viweb'), value: 'bottom'}
             ];
 
             if (bgImageId) {
@@ -95,6 +118,12 @@
                 }
                 if (bgImageSize) {
                     blockProps.style.backgroundSize = bgImageSize;
+                }
+                if (bgImagePositionX) {
+                    blockProps.style.backgroundPositionX = bgImagePositionX;
+                }
+                if (bgImagePositionY) {
+                    blockProps.style.backgroundPositionY = bgImagePositionY;
                 }
             }
             let focus = props.focus;
@@ -124,6 +153,16 @@
                             props.setAttributes({
                                 bgImageSize: val
                             });
+                        }}),
+                    el(SelectControl, {label: __('Background position horizontal', 'viweb'), options: positionXOpts, value: bgImagePositionX, onChange: function (val) {
+                            props.setAttributes({
+                                bgImagePositionX: val
+                            });
+                        }}),
+                    el(SelectControl, {label: __('Background position vertical', 'viweb'), options: positionYOpts, value: bgImagePositionY, onChange: function (val) {
+                            props.setAttributes({
+                                bgImagePositionY: val
+                            });
                         }})
                     )),
                     el('div', blockProps, el('div', {className: 'align' + alignment}, el(InnerBlocks, {
@@ -136,8 +175,8 @@
             let attrs = props.attributes;
             let blockProps = useBlockProps.save(), styles = '',
                     className = blockProps.className.replace('alignwide', ''); //replace class alignwide
-
             blockProps.className = className;
+
             let alignClassName = (attrs.align == 'wide' ? 'container align' + attrs.align : '');
             if (attrs.bgImageId) {
                 blockProps.style.backgroundImage = 'url("' + attrs.bgImageUrl + '")';
@@ -146,6 +185,12 @@
                 }
                 if (attrs.bgImageSize) {
                     blockProps.style.backgroundSize = attrs.bgImageSize;
+                }
+                if (attrs.bgImagePositionX) {
+                    blockProps.style.backgroundPositionX = attrs.bgImagePositionX;
+                }
+                if (attrs.bgImagePositionY) {
+                    blockProps.style.backgroundPositionY = attrs.bgImagePositionY;
                 }
             }
             if (alignClassName) {
