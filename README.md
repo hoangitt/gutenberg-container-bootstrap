@@ -13,7 +13,7 @@
 
 ```
 function create_gutenberg_assets() {
-    $wp_ready = array('wp-blocks', 'wp-dom-ready', 'wp-edit-post', 'wp-components');
+    $wp_ready = array('wp-blocks', 'wp-dom-ready', 'wp-edit-post', 'wp-components', 'wp-i18n');
     wp_enqueue_script('section-gutenberg-blocks', get_template_directory_uri() . 'js/section.js', $wp_ready); // add plugin use plugin_dir_url
 }
 add_action('enqueue_block_editor_assets', 'create_gutenberg_assets');
