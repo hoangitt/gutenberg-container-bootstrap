@@ -6,6 +6,31 @@
     const {useBlockProps, InnerBlocks, InspectorControls, MediaUpload} = blockEditor;
     const {PanelBody, Button, SelectControl} = components;
 
+    let repeatOpts = [
+        {label: __('Auto'), value: ''},
+        {label: __('No Repeat', 'viweb'), value: 'no-repeat'},
+        {label: __('Repeat X', 'viweb'), value: 'repeat-x'},
+        {label: __('Repeat Y', 'viweb'), value: 'repeat-y'}
+    ];
+    let sizeOpts = [
+        {label: __('Auto'), value: ''},
+        {label: __('Cover', 'viweb'), value: 'cover'},
+        {label: __('Contain', 'viweb'), value: 'contain'},
+        {label: '100%', value: '100%'}
+    ];
+    let positionXOpts = [
+        {label: __('Auto'), value: ''},
+        {label: __('Left', 'viweb'), value: 'left'},
+        {label: __('Center', 'viweb'), value: 'center'},
+        {label: 'Right', value: 'right'}
+    ];
+    let positionYOpts = [
+        {label: __('Auto'), value: ''},
+        {label: __('Top', 'viweb'), value: 'top'},
+        {label: __('Center', 'viweb'), value: 'center'},
+        {label: __('Bottom', 'viweb'), value: 'bottom'}
+    ];
+
     blocks.registerBlockType('main/section', {
         apiVersion: 2,
         title: __('Section', 'viweb'),
@@ -38,11 +63,7 @@
             alignment: {
                 type: 'string',
                 default: 'full'
-            },
-            content: {
-                type: 'string',
-                source: 'children'
-            },
+            }
         },
         supports: {
             align: ["wide", "full"],
@@ -59,13 +80,8 @@
             }
         },
         edit: function (props) {
-            let blockProps = useBlockProps(), attrs = props.attributes, alignment = attrs.align,
-                    bgImageUrl = attrs.bgImageUrl,
-                    bgImageId = attrs.bgImageId,
-                    bgImageRepeat = attrs.bgImageRepeat,
-                    bgImagePositionX = attrs.bgImagePositionX,
-                    bgImagePositionY = attrs.bgImagePositionY,
-                    bgImageSize = attrs.bgImageSize;
+            const {bgImageUrl, bgImageId, bgImageRepeat, bgImagePositionX, bgImagePositionY, bgImageSize} = props.attributes;
+            let blockProps = useBlockProps(), alignment = props.attributes.align;
             let className = blockProps.className.replace('alignwide', ''); //replace class alignwide
             blockProps.className = className;
 
@@ -77,6 +93,7 @@
                     bgImageUrl: image.url
                 });
             }
+
             function onRemoveImage() {
                 props.setAttributes({
                     bgImageId: ''
@@ -85,31 +102,6 @@
                     bgImageUrl: ''
                 });
             }
-            let repeatOpts = [
-                {label: __('Auto'), value: ''},
-                {label: __('No Repeat', 'viweb'), value: 'no-repeat'},
-                {label: __('Repeat X', 'viweb'), value: 'repeat-x'},
-                {label: __('Repeat Y', 'viweb'), value: 'repeat-y'}
-            ];
-            let sizeOpts = [
-                {label: __('Auto'), value: ''},
-                {label: __('Cover', 'viweb'), value: 'cover'},
-                {label: __('Contain', 'viweb'), value: 'contain'},
-                {label: '100%', value: '100%'}
-            ];
-
-            let positionXOpts = [
-                {label: __('Auto'), value: ''},
-                {label: __('Left', 'viweb'), value: 'left'},
-                {label: __('Center', 'viweb'), value: 'center'},
-                {label: 'Right', value: 'right'}
-            ];
-            let positionYOpts = [
-                {label: __('Auto'), value: ''},
-                {label: __('Top', 'viweb'), value: 'top'},
-                {label: __('Center', 'viweb'), value: 'center'},
-                {label: __('Bottom', 'viweb'), value: 'bottom'}
-            ];
 
             if (bgImageId) {
                 blockProps.style.backgroundImage = 'url("' + bgImageUrl + '")';
@@ -126,7 +118,6 @@
                     blockProps.style.backgroundPositionY = bgImagePositionY;
                 }
             }
-            let focus = props.focus;
 
             return el(Fragment, {}, el(InspectorControls, {}, el(PanelBody, {title: __('Select Background Image', 'viweb')},
                     el('div', {className: 'components-base-control'}, el('label', {className: 'components-form-token-field__label'}, __('Background Image', 'viweb')), el(MediaUpload, {
@@ -145,39 +136,31 @@
                         }
                     })),
                     el(SelectControl, {label: __('Background repeat', 'viweb'), options: repeatOpts, value: bgImageRepeat, onChange: function (val) {
-                            props.setAttributes({
-                                bgImageRepeat: val
-                            });
+                            props.setAttributes({bgImageRepeat: val});
                         }}),
                     el(SelectControl, {label: __('Background size', 'viweb'), options: sizeOpts, value: bgImageSize, onChange: function (val) {
-                            props.setAttributes({
-                                bgImageSize: val
-                            });
+                            props.setAttributes({bgImageSize: val});
                         }}),
                     el(SelectControl, {label: __('Background position horizontal', 'viweb'), options: positionXOpts, value: bgImagePositionX, onChange: function (val) {
-                            props.setAttributes({
-                                bgImagePositionX: val
-                            });
+                            props.setAttributes({bgImagePositionX: val});
                         }}),
                     el(SelectControl, {label: __('Background position vertical', 'viweb'), options: positionYOpts, value: bgImagePositionY, onChange: function (val) {
-                            props.setAttributes({
-                                bgImagePositionY: val
-                            });
+                            props.setAttributes({bgImagePositionY: val});
                         }})
                     )),
                     el('div', blockProps, el('div', {className: 'align' + alignment}, el(InnerBlocks, {
-                        focus: focus,
+                        focus: props.focus,
                         onFocus: props.setFocus
                     })))
                     );
         },
         save: function (props) {
+            const regex = /align/i;
             let attrs = props.attributes;
-            let blockProps = useBlockProps.save(), styles = '',
-                    className = blockProps.className.replace('alignwide', ''); //replace class alignwide
+            let blockProps = useBlockProps.save(), className = blockProps.className.replace(regex, ''); //replace class alignwide
             blockProps.className = className;
 
-            let alignClassName = (attrs.align == 'wide' ? 'container align' + attrs.align : '');
+            let alignClassName = (attrs.align == 'wide' ? 'container ' : '') + 'align' + attrs.align;
             if (attrs.bgImageId) {
                 blockProps.style.backgroundImage = 'url("' + attrs.bgImageUrl + '")';
                 if (attrs.bgImageRepeat) {
