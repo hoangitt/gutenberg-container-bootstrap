@@ -155,7 +155,7 @@
                     );
         },
         save: function (props) {
-            const regex = /align/i;
+            const regex = /align(wide|full)/gi;
             let attrs = props.attributes;
             let blockProps = useBlockProps.save(), className = blockProps.className.replace(regex, ''); //replace class alignwide
             blockProps.className = className;
