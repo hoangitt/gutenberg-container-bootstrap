@@ -87,14 +87,15 @@
                 {label: __('Contain', 'viweb'), value: 'contain'},
                 {label: '100%', value: '100%'}
             ];
-            if (bgImageUrl) {
+
+            if (bgImageId) {
                 blockProps.style.backgroundImage = 'url("' + bgImageUrl + '")';
-            }
-            if (bgImageRepeat) {
-                blockProps.style.backgroundRepeat = bgImageRepeat;
-            }
-            if (bgImageSize) {
-                blockProps.style.backgroundSize = bgImageSize;
+                if (bgImageRepeat) {
+                    blockProps.style.backgroundRepeat = bgImageRepeat;
+                }
+                if (bgImageSize) {
+                    blockProps.style.backgroundSize = bgImageSize;
+                }
             }
             let focus = props.focus;
 
@@ -138,14 +139,14 @@
 
             blockProps.className = className;
             let alignClassName = (attrs.align == 'wide' ? 'container align' + attrs.align : '');
-            if (attrs.bgImageUrl) {
+            if (attrs.bgImageId) {
                 blockProps.style.backgroundImage = 'url("' + attrs.bgImageUrl + '")';
-            }
-            if (attrs.bgImageRepeat) {
-                blockProps.style.backgroundRepeat = attrs.bgImageRepeat;
-            }
-            if (attrs.bgImageSize) {
-                blockProps.style.backgroundSize = attrs.bgImageSize;
+                if (attrs.bgImageRepeat) {
+                    blockProps.style.backgroundRepeat = attrs.bgImageRepeat;
+                }
+                if (attrs.bgImageSize) {
+                    blockProps.style.backgroundSize = attrs.bgImageSize;
+                }
             }
             if (alignClassName) {
                 return el('div', blockProps, el('div', {className: alignClassName}, el(InnerBlocks.Content)));
