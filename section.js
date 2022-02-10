@@ -150,7 +150,8 @@
                     )),
                     el('div', blockProps, el('div', {className: 'align' + alignment}, el(InnerBlocks, {
                         focus: props.focus,
-                        onFocus: props.setFocus
+                        onFocus: props.setFocus,
+                        renderAppender: InnerBlocks.ButtonBlockAppender //props.isSelected ? InnerBlocks.ButtonBlockAppender : undefined //if you want remove button
                     })))
                     );
         },
