@@ -13,7 +13,7 @@
         attributes: {
             col: {
                 type: 'number',
-                default: 1
+                default: 2
             },
             xl: {
                 type: 'number',
@@ -44,33 +44,37 @@
         edit: function (props) {
             const {col, xl, lg, md, sm} = props.attributes;
             let blockProps = useBlockProps();
+            blockProps.className += ' has-' + col + '-columns';
+            const renderBlocks = () => {
+                let elements = [];
+                for (let i = 0; i < col; i++) {
+                    elements.push(el('div', {className: 'ws-column'}, el(InnerBlocks, {renderAppender: props.isSelected ? InnerBlocks.ButtonBlockAppender : undefined})));
+                }
+                return elements;
+            };
 
             return el(Fragment, {}, el(InspectorControls, {}, el(PanelBody, {title: __('Select Columns', 'viweb')},
-                    el(RangeControl, {label: __('Column Default', 'viweb'), min: 1, max: 12, value: col, onChange: function (val) {
+                    el(RangeControl, {label: __('Column Default', 'viweb'), min: 1, max: 12, value: col, onChange: (val) => {
                             props.setAttributes({col: val});
                         }}),
                     el('hr'),
-                    el(RangeControl, {label: __('Extra Large (Desktop)', 'viweb'), min: 0, max: 12, value: xl, onChange: function (val) {
+                    el(RangeControl, {label: __('Extra Large (Desktop)', 'viweb'), min: 0, max: 12, value: xl, onChange: (val) => {
                             props.setAttributes({xl: val});
                         }}),
                     el('hr'),
-                    el(RangeControl, {label: __('Large (Tablet)', 'viweb'), min: 0, max: 12, value: lg, onChange: function (val) {
+                    el(RangeControl, {label: __('Large (Tablet)', 'viweb'), min: 0, max: 12, value: lg, onChange: (val) => {
                             props.setAttributes({lg: val});
                         }}),
                     el('hr'),
-                    el(RangeControl, {label: __('Medium (Responsive)', 'viweb'), min: 0, max: 12, value: md, onChange: function (val) {
+                    el(RangeControl, {label: __('Medium (Responsive)', 'viweb'), min: 0, max: 12, value: md, onChange: (val) => {
                             props.setAttributes({md: val});
                         }}),
                     el('hr'),
-                    el(RangeControl, {label: __('Small (Mobile)', 'viweb'), min: 0, max: 12, value: sm, onChange: function (val) {
+                    el(RangeControl, {label: __('Small (Mobile)', 'viweb'), min: 0, max: 12, value: sm, onChange: (val) => {
                             props.setAttributes({sm: val});
                         }})
                     )),
-                    el('div', blockProps, el('div', el(InnerBlocks, {
-                        focus: props.focus,
-                        onFocus: props.setFocus,
-                        renderAppender: InnerBlocks.ButtonBlockAppender //props.isSelected ? InnerBlocks.ButtonBlockAppender : undefined //if you want remove button
-                    })))
+                    el('div', blockProps, renderBlocks())
                     );
         },
         save: function (props) {
@@ -79,4 +83,3 @@
         }
     });
 })(window.wp.blocks, window.wp.element, window.wp.blockEditor, window.wp.components, window.wp.i18n);
-
