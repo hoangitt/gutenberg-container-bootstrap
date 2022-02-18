@@ -7,8 +7,9 @@
     const {RangeControl, PanelBody} = components;
     const {dispatch, select} = window.wp.data;
 
+    const ALLOWED_BLOCKS = ['row/column'];
     const BLOCKS_TEMPLATE = [
-        ['main/column', {}, []]
+        ['row/column', {}]
     ];
     let totalColumns = 1;
 
@@ -56,7 +57,7 @@
             blockProps.className += ' has-' + col + '-columns';
 
             const addColumn = (val) => {
-                const block = createBlock('main/column');
+                const block = createBlock('row/column');
                 if (totalColumns > val) {
                     let col = select('core/block-editor').getBlocksByClientId(props.clientId)[0].innerBlocks[val];
                     // Remove the nested block
@@ -91,12 +92,13 @@
                             props.setAttributes({sm: val});
                         }})
                     )),
-                    el('div', blockProps, el(InnerBlocks, {template: BLOCKS_TEMPLATE}))
+                    el('div', blockProps, el(InnerBlocks, {template: BLOCKS_TEMPLATE, allowedBlocks: ALLOWED_BLOCKS}))
                     );
         },
         save: function (props) {
             let blockProps = useBlockProps.save();
-            return el(InnerBlocks.Content, blockProps);
+            blockProps.className += ' has-' + props.attributes.col + '-columns';
+            return el('div', blockProps, el(InnerBlocks.Content));
         }
     });
 })(window.wp.blocks, window.wp.element, window.wp.blockEditor, window.wp.components, window.wp.i18n);
