@@ -4,7 +4,7 @@
     const {Fragment} = element;
     const {useBlockProps, InnerBlocks} = blockEditor;
 
-    blocks.registerBlockType('main/column', {
+    blocks.registerBlockType('row/column', {
         apiVersion: 2,
         title: __('Columns'),
         icon: 'schedule',
@@ -21,7 +21,8 @@
         },
         save: function (props) {
             let blockProps = useBlockProps.save();
-            return el(InnerBlocks.Content, blockProps);
+            blockProps.className += ' ws-column';
+            return el('div', blockProps, el(InnerBlocks.Content));
         }
     });
 })(window.wp.blocks, window.wp.element, window.wp.blockEditor, window.wp.i18n);
